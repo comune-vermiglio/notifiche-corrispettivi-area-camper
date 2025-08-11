@@ -1,0 +1,15 @@
+name: gestore_corrispettivi
+description: A sample command-line application.
+version: 1.0.0
+repository: https://github.com/comune-vermiglio/gestore-corrispettivi
+publish_to: none
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  # path: ^1.8.0
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.24.0
