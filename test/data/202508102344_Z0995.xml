@@ -1,0 +1,47 @@
+<p:DatiCorrispettivi
+    xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/corrispettivi/dati/v1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" versione="COR10"
+    xsi:schemaLocation="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/corrispettivi/dati/v1.0 CorrispettiviTypes_v1.0.xsd">
+    <Trasmissione>
+        <Progressivo>995</Progressivo>
+        <Formato>COR10</Formato>
+    </Trasmissione>
+    <DataOraRilevazione>2025-08-10T23:44:49</DataOraRilevazione>
+    <DatiRT>
+        <Riepilogo>
+            <IVA>
+                <AliquotaIVA>22.00</AliquotaIVA>
+                <Imposta>97.21</Imposta>
+            </IVA>
+            <Ammontare>441.89</Ammontare>
+            <ImportoParziale>441.89</ImportoParziale>
+        </Riepilogo>
+        <Totali>
+            <NumeroDocCommerciali>18</NumeroDocCommerciali>
+            <PagatoContanti>102.50</PagatoContanti>
+            <PagatoElettronico>436.60</PagatoElettronico>
+        </Totali>
+    </DatiRT>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo xmlns="http://www.w3.org/2000/09/xmldsig#"
+            xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/corrispettivi/dati/v1.0"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></CanonicalizationMethod>
+            <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"></SignatureMethod>
+            <Reference URI="">
+                <Transforms>
+                    <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>
+                    <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"></Transform>
+                </Transforms>
+                <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"></DigestMethod>
+                <DigestValue></DigestValue>
+            </Reference>
+        </SignedInfo>
+        <SignatureValue></SignatureValue>
+        <KeyInfo>
+            <X509Data>
+                <X509Certificate></X509Certificate>
+            </X509Data>
+        </KeyInfo>
+    </Signature>
+</p:DatiCorrispettivi>

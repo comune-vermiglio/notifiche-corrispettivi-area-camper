@@ -8,6 +8,7 @@ environment:
   sdk: ^3.8.1
 
 dependencies:
+  xml: ^6.6.0
   # path: ^1.8.0
 
 dev_dependencies:
