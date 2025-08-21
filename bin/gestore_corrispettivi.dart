@@ -1,5 +1,43 @@
-import 'package:gestore_corrispettivi/gestore_corrispettivi.dart' as gestore_corrispettivi;
+import 'dart:convert';
+import 'dart:io';
 
-void main(List<String> arguments) {
-  print('Hello world: ${gestore_corrispettivi.calculate()}!');
+import 'package:gestore_corrispettivi/config.dart';
+import 'package:gestore_corrispettivi/data_downloader.dart';
+import 'package:gestore_corrispettivi/xml_parser.dart';
+import 'package:http/http.dart';
+
+void main() async {
+  final configFile = File('./config.json');
+  if (!configFile.existsSync()) {
+    print('Configuration file not found. Please create a config.json file.');
+    return;
+  }
+  final configContent = configFile.readAsStringSync();
+  final config = Config.fromJson(
+    Map<String, dynamic>.from(jsonDecode(configContent)),
+  );
+  final downloader = DataDownloader(config: config, httpClient: Client());
+  const parser = XmlParser();
+  try {
+    await downloader.allDataUris; // Ensure the URIs are fetched
+  } catch (e) {
+    print('Error fetching data URIs: $e');
+    return;
+  }
+  final dataUris = await downloader.allDataUris;
+  List<XmlData> dataList = [];
+  for (final uri in dataUris) {
+    try {
+      final xmlContent = await downloader.downloadData(uri);
+      final data = parser.parse(xmlContent);
+      dataList.add(data);
+    } catch (e) {
+      print('Error processing $uri: $e');
+    }
+  }
+  final List<String> csvRows = dataList.map((data) => data.csvRow).toList();
+  final csvFile = File('output.csv');
+  const header =
+      'Counter,Date,Time,TransitionsCount,Tax,Total,FromCash,FromElectronic';
+  csvFile.writeAsStringSync('$header\n${csvRows.join('\n')}');
 }

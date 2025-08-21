@@ -18,6 +18,9 @@ class XmlData {
     required this.fromElectronic,
     required this.trasitionsCount,
   });
+
+  String get csvRow =>
+      '$counter,${date.year}-${date.month}-${date.day},${date.hour}:${date.minute}:${date.second},$trasitionsCount,$tax,$total,$fromCash,$fromElectronic';
 }
 
 class XmlParser {
