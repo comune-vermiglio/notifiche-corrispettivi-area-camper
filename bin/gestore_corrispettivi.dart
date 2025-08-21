@@ -18,14 +18,14 @@ void main() async {
     Map<String, dynamic>.from(jsonDecode(configContent)),
   );
   final downloader = DataDownloader(config: config, httpClient: httpClient);
+  List<Uri> dataUris;
   try {
-    await downloader.allDataUris; // Ensure the URIs are fetched
+    dataUris = await downloader.allDataUris;
   } catch (e) {
     print('Error fetching data URIs: $e');
     httpClient.close();
     return;
   }
-  final dataUris = await downloader.allDataUris;
   print('Found ${dataUris.length} data URIs.');
   const parser = XmlParser();
   List<XmlData> dataList = [];
