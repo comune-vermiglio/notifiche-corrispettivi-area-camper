@@ -13,14 +13,16 @@ void main() async {
     return;
   }
   final configContent = configFile.readAsStringSync();
+  final httpClient = Client();
   final config = Config.fromJson(
     Map<String, dynamic>.from(jsonDecode(configContent)),
   );
-  final downloader = DataDownloader(config: config, httpClient: Client());
+  final downloader = DataDownloader(config: config, httpClient: httpClient);
   try {
     await downloader.allDataUris; // Ensure the URIs are fetched
   } catch (e) {
     print('Error fetching data URIs: $e');
+    httpClient.close();
     return;
   }
   final dataUris = await downloader.allDataUris;
@@ -43,4 +45,5 @@ void main() async {
   const header =
       'Counter,Date,Time,TransitionsCount,Tax,Total,FromCash,FromElectronic';
   csvFile.writeAsStringSync('$header\n${csvRows.join('\n')}');
+  httpClient.close();
 }
