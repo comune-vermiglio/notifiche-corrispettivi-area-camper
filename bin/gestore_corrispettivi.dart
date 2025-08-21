@@ -17,7 +17,6 @@ void main() async {
     Map<String, dynamic>.from(jsonDecode(configContent)),
   );
   final downloader = DataDownloader(config: config, httpClient: Client());
-  const parser = XmlParser();
   try {
     await downloader.allDataUris; // Ensure the URIs are fetched
   } catch (e) {
@@ -25,9 +24,12 @@ void main() async {
     return;
   }
   final dataUris = await downloader.allDataUris;
+  print('Found ${dataUris.length} data URIs.');
+  const parser = XmlParser();
   List<XmlData> dataList = [];
   for (final uri in dataUris) {
     try {
+      print('Processing $uri');
       final xmlContent = await downloader.downloadData(uri);
       final data = parser.parse(xmlContent);
       dataList.add(data);
@@ -36,6 +38,7 @@ void main() async {
     }
   }
   final List<String> csvRows = dataList.map((data) => data.csvRow).toList();
+  print('Saving csv file');
   final csvFile = File('output.csv');
   const header =
       'Counter,Date,Time,TransitionsCount,Tax,Total,FromCash,FromElectronic';
