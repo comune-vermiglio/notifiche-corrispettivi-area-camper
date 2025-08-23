@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart';
 
 import 'config.dart';
@@ -36,9 +38,12 @@ class DataDownloader {
   String _indexToString(int index) => index.toString().padLeft(4, '0');
 
   Future<String> downloadData(Uri url) async {
+    final authHeader = base64.encode(
+      utf8.encode('${config.password}:${config.password}'),
+    );
     final response = await httpClient.get(
       url,
-      headers: {'Authorization': 'Basic ${config.password}'},
+      headers: {'Authorization': 'Basic $authHeader'},
     );
     return response.body;
   }

@@ -26,7 +26,7 @@ class ClientMock extends Fake implements Client {
     expect(encoding, isNull);
     expect(
       const DeepCollectionEquality().equals(headers, {
-        'Authorization': 'Basic $password',
+        'Authorization': 'Basic dGVzdF9wYXNzd29yZDp0ZXN0X3Bhc3N3b3Jk',
       }),
       isTrue,
     );
