@@ -20,6 +20,7 @@ void main() async {
   final downloader = DataDownloader(config: config, httpClient: httpClient);
   List<Uri> dataUris;
   try {
+    print('Fetching data URIs...');
     dataUris = await downloader.allDataUris;
   } catch (e) {
     print('Error fetching data URIs: $e');
@@ -31,7 +32,7 @@ void main() async {
   List<XmlData> dataList = [];
   for (final uri in dataUris) {
     try {
-      print('Processing $uri');
+      print('Processing $uri...');
       final xmlContent = await downloader.downloadData(uri);
       final data = parser.parse(xmlContent);
       dataList.add(data);
@@ -40,7 +41,7 @@ void main() async {
     }
   }
   final List<String> csvRows = dataList.map((data) => data.csvRow).toList();
-  print('Saving csv file');
+  print('Saving csv file...');
   final csvFile = File('output.csv');
   const header =
       'Counter,Date,Time,TransitionsCount,Tax,Total,FromCash,FromElectronic';
