@@ -21,10 +21,13 @@ class DataDownloader {
         ),
       );
       tmp = RegExp(
-        'http://${config.serverAddress.address}'
-        r'/CORRISPETTIVIOK/Z(\d{4})_Z(\d{4})/\d{12}_Z(\d{4}).xml',
+        r'CORRISPETTIVIOK/Z(\d{4})_Z(\d{4})/\d{12}_Z(\d{4}).xml',
       ).allMatches(pageContent).toList();
-      ret.addAll(tmp.map((e) => Uri.parse(e[0].toString())));
+      ret.addAll(
+        tmp.map(
+          (e) => Uri.parse('http://${config.serverAddress.address}/${e[0]}'),
+        ),
+      );
       startIndex += 25;
     } while (tmp.isNotEmpty);
     return ret;
@@ -36,7 +39,7 @@ class DataDownloader {
     print('Downloading $url');
     final response = await httpClient.get(
       url,
-      headers: {'Authorization': 'Basic ${config.password}:${config.password}'},
+      headers: {'Authorization': 'Basic ${config.password}'},
     );
     print('Finished downloading with status ${response.statusCode}');
     return response.body;

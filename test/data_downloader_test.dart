@@ -16,7 +16,7 @@ class ClientMock extends Fake implements Client {
   var postCalled = 0;
 
   @override
-  Future<Response> post(
+  Future<Response> get(
     Uri url, {
     Map<String, String>? headers,
     Object? body,
@@ -26,7 +26,7 @@ class ClientMock extends Fake implements Client {
     expect(encoding, isNull);
     expect(
       const DeepCollectionEquality().equals(headers, {
-        'Authorization': 'Basic $password:$password',
+        'Authorization': 'Basic $password',
       }),
       isTrue,
     );
