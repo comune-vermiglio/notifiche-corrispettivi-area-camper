@@ -34,7 +34,7 @@ class DataDownloader {
 
   Future<String> downloadData(Uri url) async {
     print('Downloading $url');
-    final response = await httpClient.post(
+    final response = await httpClient.get(
       url,
       headers: {'Authorization': 'Basic ${config.password}:${config.password}'},
     );
