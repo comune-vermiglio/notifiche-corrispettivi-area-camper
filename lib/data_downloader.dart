@@ -36,12 +36,10 @@ class DataDownloader {
   String _indexToString(int index) => index.toString().padLeft(4, '0');
 
   Future<String> downloadData(Uri url) async {
-    print('Downloading $url');
     final response = await httpClient.get(
       url,
       headers: {'Authorization': 'Basic ${config.password}'},
     );
-    print('Finished downloading with status ${response.statusCode}');
     return response.body;
   }
 }
