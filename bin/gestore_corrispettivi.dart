@@ -4,46 +4,54 @@ import 'dart:io';
 import 'package:gestore_corrispettivi/config.dart';
 import 'package:gestore_corrispettivi/data_downloader.dart';
 import 'package:gestore_corrispettivi/email_sender.dart';
+import 'package:gestore_corrispettivi/log_manager.dart';
 import 'package:gestore_corrispettivi/xml_parser.dart';
 import 'package:http/http.dart';
+import 'package:logging/logging.dart';
 import 'package:mailer/mailer.dart';
 
 void main() async {
+  final logManager = LogManager(logFile: File('./log.txt'));
+  await logManager.initialize();
+  final log = Logger('main');
   final configFile = File('./config.json');
-  if (!configFile.existsSync()) {
-    print('Configuration file not found. Please create a config.json file.');
+  final configFileExist = await configFile.exists();
+  if (!configFileExist) {
+    log.severe(
+      'Configuration file not found. Please create a config.json file.',
+    );
     return;
   }
-  final configContent = configFile.readAsStringSync();
+  final configContent = await configFile.readAsString();
   final httpClient = Client();
+  log.info('Reading config file');
   final config = Config.fromJson(
     Map<String, dynamic>.from(jsonDecode(configContent)),
   );
+  log.info('Config file ok');
   final downloader = DataDownloader(config: config, httpClient: httpClient);
   List<Uri> dataUris;
   try {
-    print('Fetching data URIs...');
+    log.info('Fetching data URIs');
     dataUris = await downloader.allDataUris;
   } catch (e) {
-    print('Error fetching data URIs: $e');
+    log.severe('Error fetching data URIs: $e');
     httpClient.close();
     return;
   }
-  print('Found ${dataUris.length} data URIs.');
+  log.info('Found ${dataUris.length} data URIs');
   if (dataUris.isNotEmpty) {
     try {
-      print('Processing ${dataUris.last}...');
+      log.info('Processing ${dataUris.last}');
       final xmlContent = await downloader.downloadData(dataUris.last);
       final data = XmlParser().parse(xmlContent);
       final emailSender = EmailSender(config: config);
+      log.info('Sending email');
       await emailSender.sendEmail(data: data);
     } on MailerException catch (e) {
-      print('Message not sent. $e');
-      for (var p in e.problems) {
-        print('Problem: ${p.code}: ${p.msg}');
-      }
+      log.severe('Error sending email. $e');
     } catch (e) {
-      print('Error processing ${dataUris.last}: $e');
+      log.severe('Error processing ${dataUris.last}: $e');
     }
   }
   httpClient.close();
