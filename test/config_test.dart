@@ -6,12 +6,33 @@ import 'package:test/test.dart';
 void main() {
   group('Config', () {
     test('fromJson', () {
-      const password = 'test_password';
+      const serverPassword = 'test_password';
       const serverAddress = '192.168.0.1';
-      final json = {'password': password, 'serverAddress': serverAddress};
-      final config = Config.fromJson(json);
-      expect(config.password, password);
-      expect(config.serverAddress, InternetAddress(serverAddress));
+      const senderName = 'sender name';
+      const senderEmail = 'sender@email.com';
+      const senderPassword = 'sender password';
+      const recipientEmails = ['recipient1@email.com', 'recipient2@email.com'];
+      final json = {
+        'serverPassword': serverPassword,
+        'serverAddress': serverAddress,
+        'senderName': senderName,
+        'senderEmail': senderEmail,
+        'senderPassword': senderPassword,
+        'recipientEmails': recipientEmails,
+      };
+      expect(
+        Config.fromJson(json),
+        equals(
+          Config(
+            serverAddress: InternetAddress(serverAddress),
+            serverPassword: serverPassword,
+            senderName: senderName,
+            senderEmail: senderEmail,
+            senderPassword: senderPassword,
+            recipientEmails: recipientEmails,
+          ),
+        ),
+      );
     });
   });
 }

@@ -44,8 +44,12 @@ void main() {
     late ClientMock client;
 
     final config = Config(
-      password: password,
+      serverPassword: password,
       serverAddress: InternetAddress(serverIp),
+      senderEmail: '',
+      senderName: '',
+      senderPassword: '',
+      recipientEmails: [],
     );
 
     setUp(() {

@@ -39,7 +39,7 @@ class DataDownloader {
 
   Future<String> downloadData(Uri url) async {
     final authHeader = base64.encode(
-      utf8.encode('${config.password}:${config.password}'),
+      utf8.encode('${config.serverPassword}:${config.serverPassword}'),
     );
     final response = await httpClient.get(
       url,

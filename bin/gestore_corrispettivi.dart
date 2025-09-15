@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:gestore_corrispettivi/config.dart';
 import 'package:gestore_corrispettivi/data_downloader.dart';
+import 'package:gestore_corrispettivi/email_sender.dart';
 import 'package:gestore_corrispettivi/xml_parser.dart';
 import 'package:http/http.dart';
+import 'package:mailer/mailer.dart';
 
 void main() async {
   final configFile = File('./config.json');
@@ -28,23 +30,21 @@ void main() async {
     return;
   }
   print('Found ${dataUris.length} data URIs.');
-  const parser = XmlParser();
-  List<XmlData> dataList = [];
-  for (final uri in dataUris) {
+  if (dataUris.isNotEmpty) {
     try {
-      print('Processing $uri...');
-      final xmlContent = await downloader.downloadData(uri);
-      final data = parser.parse(xmlContent);
-      dataList.add(data);
+      print('Processing ${dataUris.last}...');
+      final xmlContent = await downloader.downloadData(dataUris.last);
+      final data = XmlParser().parse(xmlContent);
+      final emailSender = EmailSender(config: config);
+      await emailSender.sendEmail(data: data);
+    } on MailerException catch (e) {
+      print('Message not sent. $e');
+      for (var p in e.problems) {
+        print('Problem: ${p.code}: ${p.msg}');
+      }
     } catch (e) {
-      print('Error processing $uri: $e');
+      print('Error processing ${dataUris.last}: $e');
     }
   }
-  final List<String> csvRows = dataList.map((data) => data.csvRow).toList();
-  print('Saving csv file...');
-  final csvFile = File('output.csv');
-  const header =
-      'Counter,Date,Time,TransitionsCount,Tax,Total,FromCash,FromElectronic';
-  csvFile.writeAsStringSync('$header\n${csvRows.join('\n')}');
   httpClient.close();
 }

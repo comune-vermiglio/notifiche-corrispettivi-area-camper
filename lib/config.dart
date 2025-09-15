@@ -1,15 +1,42 @@
 import 'dart:io';
 
-class Config {
-  final String password;
-  final InternetAddress serverAddress;
+import 'package:equatable/equatable.dart';
 
-  const Config({required this.password, required this.serverAddress});
+class Config extends Equatable {
+  final String serverPassword;
+  final InternetAddress serverAddress;
+  final String senderName;
+  final String senderEmail;
+  final String senderPassword;
+  final List<String> recipientEmails;
+
+  const Config({
+    required this.serverPassword,
+    required this.serverAddress,
+    required this.senderEmail,
+    required this.senderName,
+    required this.senderPassword,
+    required this.recipientEmails,
+  });
 
   static Config fromJson(Map<String, dynamic> json) {
     return Config(
-      password: json['password'],
+      serverPassword: json['serverPassword'],
       serverAddress: InternetAddress(json['serverAddress']),
+      senderName: json['senderName'],
+      senderEmail: json['senderEmail'],
+      senderPassword: json['senderPassword'],
+      recipientEmails: json['recipientEmails'],
     );
   }
+
+  @override
+  List<Object?> get props => [
+    serverAddress,
+    serverPassword,
+    senderName,
+    senderEmail,
+    senderPassword,
+    recipientEmails,
+  ];
 }
