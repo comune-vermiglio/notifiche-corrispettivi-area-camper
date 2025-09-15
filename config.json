@@ -1,4 +1,11 @@
 {
-    "serverAddress":"127.0.0.1",
-    "password": "password"
+    "serverAddress":"<server address>",
+    "serverPassword": "<server password>",
+    "senderName": "<sender name>",
+    "senderEmail": "<sender email>",
+    "senderPassword": "<sender password>",
+    "recipientEmails": [
+        "<recipient 1 email>",
+        "<recipient 2 email>"
+    ]
 }
