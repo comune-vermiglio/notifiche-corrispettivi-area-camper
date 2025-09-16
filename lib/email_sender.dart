@@ -12,16 +12,15 @@ class EmailSender {
 
   Future<void> sendEmail({required XmlData data}) async {
     final smtpServer = gmail(config.senderEmail, config.senderPassword);
-    final formatter = DateFormat('dd/MM/yyyy - HH:mm:ss');
-    final dateStr = formatter.format(data.date);
     final message = Message()
       ..from = Address(config.senderEmail, config.senderName)
       ..recipients = config.recipientEmails
-      ..subject = 'Invio corrispettivi ${config.senderName} $dateStr'
+      ..subject =
+          'Invio corrispettivi ${config.senderName} ${DateFormat('dd/MM/yyyy').format(data.date)}'
       ..html =
           """<h2>Invio corrispettivi ${config.senderName}</h2>
           <ul>
-          <li><b>Data invio</b>: $dateStr</li>
+          <li><b>Data invio</b>: ${DateFormat('dd/MM/yyyy HH:mm:ss').format(data.date)}</li>
           <li><b>Progressivo</b>: ${data.counter}</li>
           <li><b>Numero documenti commerciali</b>: ${data.trasitionsCount}</li>
           <li><b>Ammontare</b>: ${data.total}€</li>
