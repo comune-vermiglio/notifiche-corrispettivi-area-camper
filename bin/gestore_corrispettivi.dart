@@ -12,7 +12,7 @@ import 'package:mailer/mailer.dart';
 
 void main() async {
   final logManager = LogManager(logFile: File('./log.txt'));
-  await logManager.initialize();
+  logManager.initialize();
   final log = Logger('main');
   final configFile = File('./config.json');
   final configFileExist = await configFile.exists();
@@ -48,6 +48,7 @@ void main() async {
       final emailSender = EmailSender(config: config);
       log.info('Sending email');
       await emailSender.sendEmail(data: data);
+      log.info('Exit');
     } on MailerException catch (e) {
       log.severe('Error sending email. $e');
     } catch (e) {
@@ -55,4 +56,5 @@ void main() async {
     }
   }
   httpClient.close();
+  await logManager.save();
 }

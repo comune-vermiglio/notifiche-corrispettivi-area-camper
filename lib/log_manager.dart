@@ -1,13 +1,21 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:logging/logging.dart';
 
 class LogManager {
   final File logFile;
+  Queue<String> queue;
 
-  const LogManager({required this.logFile});
+  LogManager({required this.logFile}) : queue = Queue<String>();
 
-  Future<void> initialize() async {
+  void initialize() {
+    Logger.root.onRecord.listen((record) {
+      queue.add('${record.time} - [${record.level.name}]: ${record.message}');
+    });
+  }
+
+  Future<void> save() async {
     final exist = await logFile.exists();
     if (!exist) {
       await logFile.create();
@@ -19,12 +27,8 @@ class LogManager {
     } else {
       mode = FileMode.append;
     }
-    Logger.root.onRecord.listen((record) {
-      logFile.writeAsString(
-        '${record.time} - [${record.level.name}]: ${record.message}\n',
-        mode: mode,
-        flush: true,
-      );
-    });
+    for (final str in queue) {
+      await logFile.writeAsString('$str\r\n', mode: mode, flush: true);
+    }
   }
 }
