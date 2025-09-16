@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 
@@ -11,21 +12,23 @@ class EmailSender {
 
   Future<void> sendEmail({required XmlData data}) async {
     final smtpServer = gmail(config.senderEmail, config.senderPassword);
+    final formatter = DateFormat('dd/MM/yyyy - HH:mm:ss');
+    final dateStr = formatter.format(data.date);
     final message = Message()
       ..from = Address(config.senderEmail, config.senderName)
       ..recipients = config.recipientEmails
-      ..subject = 'Invio corrispettivi ${data.date}'
+      ..subject = 'Invio corrispettivi ${config.senderName} $dateStr'
       ..html =
           """<h1>Invio corrispettivi ${config.senderName}</h1>
-          <ol>
-          <li><b>Data invio</b>: ${data.date}</li>
+          <ul>
+          <li><b>Data invio</b>: $dateStr</li>
           <li><b>Progressivo</b>: ${data.counter}</li>
           <li><b>Numero documenti commerciali</b>: ${data.trasitionsCount}</li>
           <li><b>Ammontare</b>: ${data.total}</li>
           <li><b>Pagamento in contanti</b>: ${data.fromCash}</li>
           <li><b>Pagamento elettronico</b>: ${data.fromElectronic}</li>
           <li><b>Imposta</b>: ${data.tax}</li>
-          </ol>""";
+          </ul>""";
     await send(message, smtpServer);
   }
 }
