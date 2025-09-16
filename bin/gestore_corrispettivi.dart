@@ -28,7 +28,6 @@ void main() async {
   final config = Config.fromJson(
     Map<String, dynamic>.from(jsonDecode(configContent)),
   );
-  print(config.recipientEmails);
   log.info('Config file ok');
   final downloader = DataDownloader(config: config, httpClient: httpClient);
   List<Uri> dataUris;
