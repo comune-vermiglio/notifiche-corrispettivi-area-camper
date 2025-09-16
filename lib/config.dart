@@ -26,7 +26,7 @@ class Config extends Equatable {
       senderName: json['senderName'],
       senderEmail: json['senderEmail'],
       senderPassword: json['senderPassword'],
-      recipientEmails: json['recipientEmails'],
+      recipientEmails: json['recipientEmails'].cast<String>(),
     );
   }
 

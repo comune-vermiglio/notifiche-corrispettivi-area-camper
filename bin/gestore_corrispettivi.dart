@@ -22,12 +22,13 @@ void main() async {
     );
     return;
   }
-  final configContent = await configFile.readAsString();
   final httpClient = Client();
+  final configContent = await configFile.readAsString();
   log.info('Reading config file');
   final config = Config.fromJson(
     Map<String, dynamic>.from(jsonDecode(configContent)),
   );
+  print(config.recipientEmails);
   log.info('Config file ok');
   final downloader = DataDownloader(config: config, httpClient: httpClient);
   List<Uri> dataUris;
