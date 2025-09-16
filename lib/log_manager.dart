@@ -21,7 +21,7 @@ class LogManager {
     }
     Logger.root.onRecord.listen((record) {
       logFile.writeAsString(
-        '${record.time} - [${record.level.name}]: ${record.message}',
+        '${record.time} - [${record.level.name}]: ${record.message}\n',
         mode: mode,
       );
     });
