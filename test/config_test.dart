@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:gestore_corrispettivi/config.dart';
+import 'package:notifiche_corrispettivi/config.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,7 +1,7 @@
-name: gestore_corrispettivi
-description: A sample command-line application.
+name: notifiche_corrispettivi
+description: Notifica via mail dei corrispettivi COR10 inviati all'Agenzia delle Entrate dalla cassa dell'area camper.
 version: 0.1.0
-repository: https://github.com/comune-vermiglio/gestore-corrispettivi
+repository: https://github.com/comune-vermiglio/notifiche-corrispettivi-area-camper
 publish_to: none
 
 environment:

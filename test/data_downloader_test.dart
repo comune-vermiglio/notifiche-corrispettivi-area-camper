@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:gestore_corrispettivi/config.dart';
-import 'package:gestore_corrispettivi/data_downloader.dart';
+import 'package:notifiche_corrispettivi/config.dart';
+import 'package:notifiche_corrispettivi/data_downloader.dart';
 import 'package:http/http.dart';
 import 'package:test/fake.dart';
 import 'package:test/test.dart';

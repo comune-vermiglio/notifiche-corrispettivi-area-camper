@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:gestore_corrispettivi/config.dart';
-import 'package:gestore_corrispettivi/data_downloader.dart';
-import 'package:gestore_corrispettivi/email_sender.dart';
-import 'package:gestore_corrispettivi/log_manager.dart';
-import 'package:gestore_corrispettivi/xml_parser.dart';
+import 'package:notifiche_corrispettivi/config.dart';
+import 'package:notifiche_corrispettivi/data_downloader.dart';
+import 'package:notifiche_corrispettivi/email_sender.dart';
+import 'package:notifiche_corrispettivi/log_manager.dart';
+import 'package:notifiche_corrispettivi/xml_parser.dart';
 import 'package:http/http.dart';
 import 'package:logging/logging.dart';
 import 'package:mailer/mailer.dart';

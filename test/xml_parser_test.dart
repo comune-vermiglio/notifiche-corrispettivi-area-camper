@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:gestore_corrispettivi/xml_parser.dart';
+import 'package:notifiche_corrispettivi/xml_parser.dart';
 import 'package:test/test.dart';
 
 void main() {
