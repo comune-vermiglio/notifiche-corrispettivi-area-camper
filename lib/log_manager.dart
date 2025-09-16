@@ -23,6 +23,7 @@ class LogManager {
       logFile.writeAsString(
         '${record.time} - [${record.level.name}]: ${record.message}\n',
         mode: mode,
+        flush: true,
       );
     });
   }
