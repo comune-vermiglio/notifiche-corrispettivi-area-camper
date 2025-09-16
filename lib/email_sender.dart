@@ -19,15 +19,15 @@ class EmailSender {
       ..recipients = config.recipientEmails
       ..subject = 'Invio corrispettivi ${config.senderName} $dateStr'
       ..html =
-          """<h1>Invio corrispettivi ${config.senderName}</h1>
+          """<h2>Invio corrispettivi ${config.senderName}</h2>
           <ul>
           <li><b>Data invio</b>: $dateStr</li>
           <li><b>Progressivo</b>: ${data.counter}</li>
           <li><b>Numero documenti commerciali</b>: ${data.trasitionsCount}</li>
-          <li><b>Ammontare</b>: ${data.total}</li>
-          <li><b>Pagamento in contanti</b>: ${data.fromCash}</li>
-          <li><b>Pagamento elettronico</b>: ${data.fromElectronic}</li>
-          <li><b>Imposta</b>: ${data.tax}</li>
+          <li><b>Ammontare</b>: ${data.total}€</li>
+          <li><b>Pagamento in contanti</b>: ${data.fromCash}€</li>
+          <li><b>Pagamento elettronico</b>: ${data.fromElectronic}€</li>
+          <li><b>Imposta</b>: ${data.tax}€</li>
           </ul>""";
     await send(message, smtpServer);
   }
