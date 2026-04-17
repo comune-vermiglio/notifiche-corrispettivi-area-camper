@@ -46,8 +46,19 @@ void main() async {
       final xmlContent = await downloader.downloadData(dataUris.last);
       final data = XmlParser().parse(xmlContent);
       final emailSender = EmailSender(config: config);
-      log.info('Sending email');
-      await emailSender.sendEmail(data: data);
+      if (DateTime.now().difference(data.date) > const Duration(days: 1)) {
+        log.warning(
+          'The data is older than 1 day. Date: ${data.date}. Send error email.',
+        );
+        await emailSender.sendEmail(
+          subject: 'Errore invio corrispettivi',
+          htmlBody: """<h2>Errore invio corrispettivi ${config.senderName}</h2>
+          <p>Ieri non sono stati inviati i corrispettivi.</p>""",
+        );
+      } else {
+        log.info('Sending data email');
+        await emailSender.sendDataEmail(data: data);
+      }
       log.info('Exit');
     } on MailerException catch (e) {
       log.severe('Error sending email. $e');

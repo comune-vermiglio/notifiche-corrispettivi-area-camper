@@ -10,14 +10,11 @@ class EmailSender {
 
   const EmailSender({required this.config});
 
-  Future<void> sendEmail({required XmlData data}) async {
-    final smtpServer = gmail(config.senderEmail, config.senderPassword);
-    final message = Message()
-      ..from = Address(config.senderEmail, config.senderName)
-      ..recipients = config.recipientEmails
-      ..subject =
-          'Invio corrispettivi ${config.senderName} ${DateFormat('dd/MM/yyyy').format(data.date)}'
-      ..html =
+  Future<void> sendDataEmail({required XmlData data}) async {
+    return sendEmail(
+      subject:
+          'Invio corrispettivi ${config.senderName} ${DateFormat('dd/MM/yyyy').format(data.date)}',
+      htmlBody:
           """<h2>Invio corrispettivi ${config.senderName}</h2>
           <ul>
           <li><b>Data invio</b>: ${DateFormat('dd/MM/yyyy HH:mm:ss').format(data.date)}</li>
@@ -27,7 +24,20 @@ class EmailSender {
           <li><b>Pagamento in contanti</b>: ${data.fromCash}€</li>
           <li><b>Pagamento elettronico</b>: ${data.fromElectronic}€</li>
           <li><b>Imposta</b>: ${data.tax}€</li>
-          </ul>""";
+          </ul>""",
+    );
+  }
+
+  Future<void> sendEmail({
+    required String subject,
+    required String htmlBody,
+  }) async {
+    final smtpServer = gmail(config.senderEmail, config.senderPassword);
+    final message = Message()
+      ..from = Address(config.senderEmail, config.senderName)
+      ..recipients = config.recipientEmails
+      ..subject = subject
+      ..html = htmlBody;
     await send(message, smtpServer);
   }
 }
